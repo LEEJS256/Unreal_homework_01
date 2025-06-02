@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
-#include <algorithm>
+
 
 using namespace std;
 
@@ -10,122 +10,131 @@ struct Movie {
     double rating;
 };
 
-// TODO: MovieProcessor 추상 클래스 정의
-// 순수 가상 함수 process를 선언해야 합니다.
-// process는 vector<Movie>&를 인자로 받아야 합니다.
-class MovieProcessor {
-public:
-    virtual void process(vector<Movie>& movies) = 0;
-    virtual ~MovieProcessor() {}
-};
 
-// 기본 영화 관리자
-class MovieManager {
-private:
-    vector<Movie> movies;
-    map<string, double> movieMap;
 
-public:
-    MovieManager() {
-        // 초기 데이터 설정
-        movies = {
-            {"Inception", 9.0},
-            {"Interstellar", 8.6},
-            {"The Dark Knight", 9.1},
-            {"Memento", 8.4}
-        };
+int Sum_Num(int a, int b) {
+    return a + b;
+}
 
-        for (const auto& movie : movies) {
-            movieMap[movie.title] = movie.rating;
-        }
+void print_vec(const vector<int>& p_vec){
+    //for (int i = 0; i < p_vec.size(); i++)
+    //{
+    //    if (i == p_vec.size() - 1)
+    //    {
+    //        cout << p_vec[i] << endl;
+    //    }
+    //    else
+    //    {
+    //        cout << p_vec[i] << " ";
+    //    }
+    //}
+    for (size_t i = 0; i < p_vec.size(); ++i) {
+        cout << p_vec[i];
+        if (i != p_vec.size() - 1)
+            cout << " ";
     }
+}
 
-    void printMovies() {
-        cout << "영화 목록:\n";
-        for (const auto& movie : movies) {
-            cout << "제목: " << movie.title << ", 평점: " << movie.rating << "\n";
-        }
+ int Sum_vec_Num(const vector<int>&p_vec) {
+    int i_sum = 0;
+    for (int i = 0; i < p_vec.size(); i++)
+    {
+        i_sum += p_vec[i];
     }
+    return i_sum;
+}
 
-    void findMovie(const string& title) {
-        auto it = movieMap.find(title);
-        if (it != movieMap.end()) {
-            cout << "영화 제목: " << it->first << ", 평점: " << it->second << "\n";
-        }
-        else {
-            cout << "해당 영화는 목록에 없습니다.\n";
-        }
+float Avg_vec_Num(const vector<int>& p_vec) {
+    int i_sum = 0;
+    for (int i = 0; i < p_vec.size(); i++)
+    {
+        i_sum += p_vec[i];
     }
+    return i_sum / (float)p_vec.size();
+}
 
-    // MovieProcessor를 사용하여 기능 확장
-    void processMovies(MovieProcessor& processor) {
-        processor.process(movies);
-    }
+void func_02(const vector<int>& p_vec) {
+    cout << "===========================================" << endl;
+    cout << "합계:" << Sum_vec_Num(p_vec) << endl;
+    cout << "평균:" << Avg_vec_Num(p_vec) << endl;
+    cout << "===========================================" << endl;
 
-};
-
-
-// TODO: compareMovies 함수 정의
-// Movies 객체의 대소를 비교하는 함수 입니다.
-// STL에서 제공하는 sort 함수를 활용해서 vector<Movie>를 멤버변수 rating 기준 내림차순으로 정렬 할 수 있도록 해야 합니다. 
-class RatingSorter : public MovieProcessor {
-
-public:
-    static bool compareMovie(const Movie& a, const Movie& b) {
-        return a.rating > b.rating;
-    }
-    void process(vector<Movie>& movies) override {
-        sort(movies.begin(), movies.end(), compareMovie);
-
-        cout << "평점 기준 내림차순 정렬된 영화 목록:\n";
-        for (const auto& movie : movies) {
-            cout << "제목: " << movie.title << ", 평점: " << movie.rating << "\n";
-        }
-    }
-};
-
-// TODO: RatingSorter 클래스 정의
-// MovieProcessor를 상속받아 구현합니다.
-// process 는 vector<Movie>&를 인자로 받으며 영화목록이 저장되어 있습니다.
-// process는 인자로 받은 벡터는 내림차순으로 정렬하고, 정렬된 영화목록을 출력합니다.
-
-
-
-
-// 구체 클래스: 특정 평점 이상의 영화 필터링
-class RatingFilter : public MovieProcessor {
-private:
-    double minRating;
-
-public:
-    explicit RatingFilter(double minRating) : minRating(minRating) {}
-
-    void process(vector<Movie>& movies) {
-        cout << "평점 " << minRating << " 이상인 영화 목록:\n";
-        for (const auto& movie : movies) {
-            if (movie.rating >= minRating) {
-                cout << "제목: " << movie.title << ", 평점: " << movie.rating << "\n";
+}
+//내림차순
+void func_sort(vector<int>& p_vec) {
+    int i_sort =0;
+    cout << "오름차순은 1번, 내림차순은 2번을 입력하세요" << endl;
+    cin >> i_sort;
+    int i_vec_size = p_vec.size();
+    if (i_sort == 1) //오름차순
+    {
+        
+        for (int i = 0; i < i_vec_size - 1; i++)
+        {
+            for (int j = 0; j < i_vec_size - 1; j++)
+            {
+                if (p_vec[j] > p_vec[j + 1])
+                {
+                    int temp = p_vec[j];
+                    p_vec[j] = p_vec[j + 1];
+                    p_vec[j + 1] = temp;
+                }
             }
         }
     }
-};
+    else if(i_sort)//내림차순
+    {
+        for(int i = 0; i < i_vec_size - 1; i++)
+        {
+            for (int j = 0; j < i_vec_size - 1; j++)
+            {
+                if (p_vec[j] < p_vec[j + 1])
+                {
+                    int temp = p_vec[j];
+                    p_vec[j] = p_vec[j + 1];
+                    p_vec[j+1] = temp;
+                }
+            }
+        }
+    }
+
+
+}
+
+
+
+void Input_vec_num(vector<int>& p_vec) { 
+    //const 뺀이유 그대로 벡터에 넣을려고
+    //cout << "숫자 5개를 하나씩 입력하세요" << endl;
+
+    int input_value = 0;
+    int i_size = 0;
+    cout << "사이즈 입력:" << endl;
+    cin >> i_size;
+    for (int i = 1; i <= i_size; ++i)
+    {
+        cout << i << "번째 숫자를 입력하세요" << endl;
+        cin >> input_value;
+        p_vec.push_back(input_value);
+    }
+
+  
+}
 
 int main() {
-    MovieManager manager;
+    vector<int> m_vec_Input_num;
 
-    cout << "1. 영화 목록 출력\n";
-    manager.printMovies();
+    Input_vec_num(m_vec_Input_num);
 
-    cout << "\n2. 영화 검색 (예: Interstellar)\n";
-    manager.findMovie("Interstellar");
+    //for (int i = 0; i < m_vec_Input_num.size(); i++)
+    //{
+    //    cout << "check" << endl;
+    //    cout << m_vec_Input_num[i] << endl;
+    //}
 
-    cout << "\n3. 평점 기준 정렬 및 출력\n";
-    RatingSorter sorter;
-    manager.processMovies(sorter);
-
-    cout << "\n4. 평점 8.5 이상인 영화 필터링 및 출력\n";
-    RatingFilter filter(8.5);
-    manager.processMovies(filter);
+    func_02(m_vec_Input_num);
+    func_sort(m_vec_Input_num);
+    print_vec(m_vec_Input_num);
 
     return 0;
 }
